@@ -1,0 +1,42 @@
+/* components/textarea/textareaAndLabel.wxss */
+.textareaAndLabel{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* textareaView */
+.textareaTextView {
+  width: 622rpx;
+  padding: 22rpx 28rpx;
+  height: 176rpx;
+  border-radius: 8rpx;
+  margin-top: 20rpx;
+  border: 1rpx solid #CCCCCC;
+  overflow-y: auto;
+  word-break: break-all; 
+  word-wrap: break-word; 
+  white-space: pre-wrap;
+}
+
+.textareaTextView-text {
+  font-size: 28rpx;
+  font-family: PingFangSC-Light, PingFang SC;
+  font-weight: 300;
+  color: rgba(191, 191, 191, 1);
+}
+
+.textareaView {
+  width: 622rpx;
+  padding: 22rpx 28rpx;
+  height: 176rpx;
+  border-radius: 8rpx;
+  margin-top: 20rpx;
+  border: 1rpx solid rgba(191, 191, 191, 1);
+}
+
+.refundDescription {
+  font-size: 28rpx;
+  font-family: PingFangSC-Light, PingFang SC;
+  font-weight: 300;
+  color: rgba(191, 191, 191, 1);
+}

@@ -1,0 +1,97 @@
+/* pages/components/Timeline/Timeline.wxss */
+
+/*时间轴*/
+
+/*外部容器*/
+
+.listview-container {
+  margin: 40rpx 0rpx;
+}
+
+/*行样式*/
+
+.playlog-item {
+  display: flex;
+}
+
+/*时间轴*/
+
+.playlog-item .dotline {
+  margin: 0px 6rpx;
+  padding: 0px 6rpx;
+  width: 32rpx;
+  position: relative;
+}
+
+/*竖线*/
+
+.playlog-item .dotline .line {
+  width: 2rpx;
+  height: 160%;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  left: 17rpx;
+}
+
+/*圆点*/
+
+.playlog-item .dotline .dot {
+  width: 14rpx;
+  height: 14rpx;
+  background: #dbb678;
+  position: absolute;
+  top: 40%;
+  left: 10rpx;
+  border-radius: 50%;
+}
+
+/* 选中状态 */
+
+.playlog-item .dotlineSelect {
+  margin: 0px 6rpx;
+  padding: 0px 6rpx;
+  width: 32rpx;
+  position: relative;
+}
+
+.playlog-item .dotlineSelect .line {
+  width: 2rpx;
+  height: 120%;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  left: 17rpx;
+}
+
+.playlog-item .dotlineSelect .dot {
+  width: 28rpx;
+  height: 28rpx;
+  background: #dbb678;
+  position: absolute;
+  top: 40%;
+  left: 3rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playlog-item .dotlineSelect .dot .dotx {
+  width: 16rpx;
+  height: 16rpx;
+  background: white;
+  border-radius: 50%;
+}
+
+/*时间戳*/
+
+.playlog-item .dotline .time {
+  width: 100%;
+  position: absolute;
+  margin-top: 60rpx;
+  z-index: 99;
+  font-size: 24rpx;
+  color: #777;
+  text-align: center;
+}

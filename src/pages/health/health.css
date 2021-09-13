@@ -1,0 +1,55 @@
+/* pages/my-order/my-order.wxss */
+
+.van-info {
+  top: 8px !important;
+  right: 6px !important;
+}
+
+.view {
+  background: rgba(250, 250, 250, 1);
+}
+
+.noData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.nodataTitle {
+  font-size: 16px;
+  font-family: PingFangSC-Medium;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+  line-height: 48px;
+}
+
+.nodataButton {
+  width: 100px;
+  height: 40px;
+  background: #dbb678;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 40px;
+  text-align: center;
+}
+
+/* 新增 */
+
+.van-tabs__line {
+  background-color: #dbb678 !important;
+  background-color: var(--tabs-bottom-bar-color, #dbb678) !important;
+}
+
+.kouzhao {
+  padding: 28rpx 32rpx;
+}
+
+.duanluo {
+  text-indent: 2em;
+  font-size: 28rpx;
+}

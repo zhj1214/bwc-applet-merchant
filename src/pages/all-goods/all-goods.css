@@ -1,0 +1,91 @@
+.backgroundview {
+  display: flex;
+  /* background-color: red; */
+}
+
+
+/*  sidebar  */
+
+.van-sidebar-item__text {
+  width: 100%;
+  text-align: center;
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+}
+.u-menu-wrap .u-tab-item {
+  width: 100px;
+  /* line-height: 1.2!important; */
+}
+/* .u-tab-item {
+  width: 200px;
+} */
+.van-sidebar {
+  width: 180rpx !important;
+}
+
+.van-sidebar-item {
+  padding: var(--sidebar-padding, 33rpx 4rpx 33rpx 0rpx) !important;
+  width: 180rpx;
+  color: #949494 !important;
+}
+
+.van-sidebar-item--selected {
+  border-color: #dbb678 !important;
+  border-width: 8rpx !important;
+  color: var(--sidebar-selected-text-color, #2b2b2b) !important;
+}
+
+/* 商品样式 */
+
+.goodsBackgroundView {
+  padding: 0px 40rpx 0rpx 30rpx;
+  overflow: hidden;
+  height: 100vh;
+  overflow-y: scroll;
+  
+}
+
+.classificationBackground {
+  display: flex;
+  flex-direction: column;
+}
+
+.classificationItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.classificationItem-title {
+  margin-bottom: 40rpx;
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(84, 84, 84, 1);
+  line-height: 33rpx;
+  letter-spacing: 1rpx;
+}
+
+.classificationItem-goodsView {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.classificationItem-Item {
+  width: 160rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.classificationItem-desc {
+  margin-top: 24rpx;
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #929497;
+  line-height: 28rpx;
+  letter-spacing: 1rpx;
+}

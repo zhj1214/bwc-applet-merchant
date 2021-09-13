@@ -1,0 +1,56 @@
+/* miniprogram/components/Timeline/historyTimeline.wxss */
+/*时间轴*/
+
+/*外部容器*/
+
+.listview-container {
+  padding-top: 40rpx;
+}
+
+/*行样式*/
+
+.playlog-item {
+  display: flex;
+}
+
+/*时间轴*/
+
+.playlog-item .dotline {
+  width: 32rpx;
+  position: relative;
+}
+
+/*竖线*/
+
+.playlog-item .dotline .line {
+  width: 2rpx;
+  height: 112%;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  left: 8rpx;
+}
+
+/*圆点*/
+
+.playlog-item .dotline .dot {
+  width: 14rpx;
+  height: 14rpx;
+  border: 1rpx solid #777;
+  position: absolute;
+  top: -16rpx;
+  border-radius: 50%;
+}
+
+
+/*时间戳*/
+
+.playlog-item .dotline .time {
+  width: 100%;
+  position: absolute;
+  margin-top: 60rpx;
+  z-index: 99;
+  font-size: 24rpx;
+  color: #777;
+  text-align: center;
+}
