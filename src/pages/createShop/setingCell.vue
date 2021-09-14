@@ -4,12 +4,14 @@
  * @Autor: zhj1214
  * @Date: 2021-09-13 21:53:55
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-13 23:49:47
+ * @LastEditTime: 2021-09-14 22:57:18
 -->
 <template>
   <view class="view">
     <!-- header -->
-    <view class="headerTitle flex-center"> <view class="headerTitleLeft"></view> 美团配置 </view>
+    <view class="headerTitle flex-center">
+      <view class="headerTitleLeft"></view> {{ title || '配置项' }}
+    </view>
     <!-- 内容 -->
     <view class="item flex-center">
       <view class="title">是否开启 </view>
@@ -89,6 +91,9 @@
 
 <script>
   export default {
+    props: {
+      title: String,
+    },
     data() {
       return {
         switchChecked: false,
@@ -108,14 +113,42 @@
        * @author: zhj1214
        */
       totalActivity() {
-        return this.activityNumber === this.noAssesNumber + this.assesNumber + this.allAssesNumber
+        const total =
+          Number(this.noAssesNumber) + Number(this.assesNumber) + Number(this.allAssesNumber)
+        return Number(this.activityNumber) === total
       },
     },
     methods: {
-      switchChange(e) {
-        console.log(e, '---', this.fan)
-        // if (!this.totalActivity && this.activityNumber > 0 && type) {
-        // }
+      switchChange() {
+        console.log('满减金额不正确')
+        if (this.man > 14 && this.man < 101) {
+          console.log('返现金额不正确')
+          if (this.fan > 9 && this.fan <= this.man) {
+            console.log('活动数量最少10个')
+            if (this.activityNumber > 9) {
+              console.log(
+                this.activityNumber,
+                '好评量不足',
+                this.noAssesNumber,
+                '--',
+                this.assesNumber,
+                '--',
+                this.allAssesNumber
+              )
+              if (this.totalActivity) {
+                console.log('完全正确:', this.$data)
+                this.$emit('change', this.$data)
+                const calculateType = this.title
+                uni.$eventbus.$emit('calculateCharge', { ...this.$data, calculateType })
+                return
+              }
+            }
+          }
+        }
+        uni.$alert.showToast('请检查您的配置项是否正确')
+        this.$nextTick(() => {
+          this.switchChecked = false
+        })
       },
       textChange(val, type) {
         console.log(val, '--', type)
@@ -137,8 +170,6 @@
           this.activityNumber = 0
           return uni.$alert.showToast('活动数量最低10个')
         }
-
-        this.$emit('change', this.$data)
       },
     },
   }

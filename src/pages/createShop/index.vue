@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-09-13 21:22:17
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-13 21:57:19
+ * @LastEditTime: 2021-09-14 22:44:25
 -->
 <template>
   <view class="view">
@@ -20,21 +20,43 @@
       </view>
       <view class="headerDesc"> 文艺路物美楼下 </view>
     </view>
-    <!-- 配置 -->
-    <seting></seting>
+    <!-- 美团配置 -->
+    <seting title="美团配置" @change="mtSetingChange"></seting>
+    <!-- 饿了么配置 -->
+    <seting title="饿了么配置" @change="elmSetingChange"></seting>
+    <!-- 通用配置 -->
+    <universal @change="dataTimeChange"></universal>
   </view>
 </template>
 
 <script>
   import seting from './setingCell'
+  import universal from './universalSeting.vue'
+
+  const Log = console.log
   export default {
     name: 'CreateShop',
-    components: { seting },
+    components: { seting, universal },
     data() {
       return {}
     },
     created() {},
-    methods: {},
+    methods: {
+      /**
+       * @description: 获取数据
+       * @param {*} val
+       * @author: zhj1214
+       */
+      mtSetingChange(val) {
+        Log('美团：', val)
+      },
+      elmSetingChange(val) {
+        Log('饿了么：', val)
+      },
+      dataTimeChange(val) {
+        Log('通用配置变化了', val)
+      },
+    },
   }
 </script>
 
@@ -42,7 +64,7 @@
   .view {
     padding: 32rpx;
     .header {
-      padding: 26rpx 0;
+      padding: 16rpx 0;
       border-bottom: 1px solid #c8c8c8;
       justify-content: space-between;
       .headerText {
