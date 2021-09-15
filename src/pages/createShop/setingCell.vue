@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-09-13 21:53:55
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-14 22:57:18
+ * @LastEditTime: 2021-09-15 20:49:51
 -->
 <template>
   <view class="view">
@@ -25,6 +25,7 @@
           style="margin: 0 3px"
           :custom-style="inputStyle"
           v-model="man"
+          :disabled="disabled"
           type="number"
           :border="true"
           @blur="textChange(man, 'man')"
@@ -35,6 +36,7 @@
           style="margin: 0 3px"
           :custom-style="inputStyle"
           v-model="fan"
+          :disabled="disabled"
           placeholder="10元起"
           type="number"
           :border="true"
@@ -48,6 +50,7 @@
         :custom-style="inputStyle"
         type="number"
         border="true"
+        :disabled="disabled"
         placeholder="10个起"
         v-model="activityNumber"
         @input="textChange(activityNumber, 'activityNumber')"
@@ -62,6 +65,7 @@
         :custom-style="inputStyle"
         type="number"
         border="true"
+        :disabled="disabled"
         v-model="noAssesNumber"
         @input="textChange(noAssesNumber, 'noAssesNumber')"
       ></u-input>
@@ -72,6 +76,7 @@
         :custom-style="inputStyle"
         type="number"
         border="true"
+        :disabled="disabled"
         v-model="assesNumber"
         @input="textChange(assesNumber, 'assesNumber')"
       ></u-input>
@@ -82,6 +87,7 @@
         :custom-style="inputStyle"
         type="number"
         border="true"
+        :disabled="disabled"
         v-model="allAssesNumber"
         @input="textChange(allAssesNumber, 'allAssesNumber')"
       ></u-input>
@@ -93,11 +99,11 @@
   export default {
     props: {
       title: String,
+      disabled: Boolean,
     },
     data() {
       return {
         switchChecked: false,
-        disabled: false,
         inputStyle: { width: '55px' },
         man: '',
         fan: '',
@@ -136,10 +142,9 @@
                 this.allAssesNumber
               )
               if (this.totalActivity) {
-                console.log('完全正确:', this.$data)
-                this.$emit('change', this.$data)
-                const calculateType = this.title
-                uni.$eventbus.$emit('calculateCharge', { ...this.$data, calculateType })
+                console.log('完全正确:')
+
+                // uni.$eventbus.$emit('calculateCharge', { ...this.$data, calculateType })
                 return
               }
             }
@@ -152,7 +157,6 @@
       },
       textChange(val, type) {
         console.log(val, '--', type)
-
         const isOk = /^\d{1,}$/.test(val)
         if (!isOk) {
           this.$nextTick(() => {
@@ -170,6 +174,8 @@
           this.activityNumber = 0
           return uni.$alert.showToast('活动数量最低10个')
         }
+        const calculateType = this.title
+        this.$emit('change', { ...this.$data, calculateType })
       },
     },
   }

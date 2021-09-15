@@ -8,6 +8,9 @@
       "enablePullDownRefresh": true
     },
     {
+      "path": "pages/my/myWallet"
+    },
+    {
       "path": "pages/createShop/index"
     },
     {

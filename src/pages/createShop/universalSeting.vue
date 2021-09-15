@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-09-14 22:06:24
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-14 22:43:38
+ * @LastEditTime: 2021-09-15 22:01:23
 -->
 <!--
  * @Description: 通用配置项
@@ -23,7 +23,7 @@
       class="item flex-center"
       @click="
         () => {
-          showClendar = !showClendar
+          if (!disabled) showClendar = !showClendar
         }
       "
     >
@@ -34,8 +34,10 @@
       class="item flex-center"
       @click="
         () => {
-          showTime = !showTime
-          timeType = 'start'
+          if (!disabled) {
+            showTime = !showTime
+            timeType = 'start'
+          }
         }
       "
     >
@@ -46,25 +48,48 @@
       class="item flex-center"
       @click="
         () => {
-          showTime = !showTime
-          timeType = 'end'
+          if (!disabled) {
+            showTime = !showTime
+            timeType = 'end'
+          }
         }
       "
     >
       <view class="title">每天结束时间</view>
       <view class="desc"> {{ endTime || '--' }} </view>
     </view>
-    <u-picker mode="time" v-model="showTime" :params="timeParams" @confirm="timeConfirm"></u-picker>
+    <u-picker
+      mode="time"
+      v-model="showTime"
+      z-index="9999999"
+      :params="timeParams"
+      @confirm="timeConfirm"
+    ></u-picker>
 
-    <u-calendar v-model="showClendar" mode="range" @change="clendarChange"></u-calendar>
+    <u-calendar
+      v-model="showClendar"
+      mode="range"
+      :safe-area-inset-bottom="true"
+      z-index="9999999"
+      :min-date="curDate"
+      max-date="2099-01-01"
+      @change="clendarChange"
+    >
+      <!-- <view slot="tooltip" style="width: 100vw; display: flex; align-items: center">
+        <view style="text-algin: center; width: 100vw"> 请选择活动开始/结束日期 </view>
+      </view> -->
+    </u-calendar>
   </view>
 </template>
 
 <script>
   export default {
+    props: {
+      disabled: Boolean,
+    },
     data() {
       return {
-        disabled: false,
+        curDate: new Date().Format('YYYY-MM-DD'), // 当前日期用于设置日历开始日期
         showClendar: false,
         dateCalendar: '',
         showTime: false,
@@ -78,6 +103,7 @@
           hour: true,
           minute: true,
           second: true,
+          timestamp: true,
         },
       }
     },
@@ -90,10 +116,19 @@
        */
       timeConfirm(e) {
         console.log(e)
+
         if (this.timeType === 'start') {
           this.startTime = `${e.hour}:${e.minute}:${e.second}`
+          this.startTimeStamp = e.timestamp
         } else if (this.timeType === 'end') {
           this.endTime = `${e.hour}:${e.minute}:${e.second}`
+          this.endTimeStamp = e.timestamp
+        }
+        if (this.startTimeStamp && this.endTimeStamp && this.endTimeStamp <= this.startTimeStamp) {
+          uni.$alert.showToast('开始时间要早于结束时间！')
+          this.endTime = ''
+          this.endTimeStamp = 0
+          return
         }
         this.$emit('change', this.$data)
       },
