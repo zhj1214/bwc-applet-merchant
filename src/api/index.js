@@ -4,13 +4,14 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-03 21:14:55
+ * @LastEditTime: 2021-09-18 14:55:08
  */
 import http from '../utils/http'
 import userCenter from './user' // 个人中心
 
 const api = {
   ...userCenter,
+  mapSearch: 'https://apis.map.qq.com/ws/place/v1/search',
   /************** 错误日志上报 *************/
   errApi: 'errLog/errlogUpload',
 
@@ -43,7 +44,6 @@ const api = {
    * @param {*} options  入参
    * */
   apiRequest(key, options) {
-    console.log(key)
     const { url, method } = this.destructorApi(key)
     console.log('url :>> ', url)
     return new Promise((resolve, reject) => {

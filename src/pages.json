@@ -39,6 +39,9 @@
       "path": "pages/login/updatePhone/updatePhone"
     },
     {
+      "path": "pages/createShop/mapView"
+    },
+    {
       "path": "pages/login/phone/phone"
     }
   ],
