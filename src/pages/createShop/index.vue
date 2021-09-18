@@ -4,14 +4,14 @@
  * @Autor: zhj1214
  * @Date: 2021-09-13 21:22:17
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-15 22:04:54
+ * @LastEditTime: 2021-09-18 16:42:10
 -->
 <template>
   <view class="view">
     <navBar title="创建店铺活动" background="#fff"></navBar>
     <!-- header -->
     <view class="header flex-center">
-      <view class="headerText flex-center">
+      <view class="headerText flex-center" @click="copyText">
         <img
           src="../../static/images/login/regionalPrivilege.png"
           style="width: 33px; height: 33px; margin-right: 16rpx"
@@ -112,6 +112,23 @@
       }
     },
     methods: {
+      /**
+       * @description: 复制内容到剪贴板
+       * @param {*} data
+       * @author: zhj1214
+       */
+      copyText(data) {
+        wx.setClipboardData({
+          data: data,
+          success() {
+            wx.getClipboardData({
+              success(res) {
+                console.log('剪贴板内容：', res.data) // data
+              },
+            })
+          },
+        })
+      },
       /**
        * @description: 获取数据
        * @param {*} val
