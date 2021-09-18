@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-09-18 09:55:09
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-18 16:10:47
+ * @LastEditTime: 2021-09-18 16:54:23
 -->
 <template>
   <view class="view">
@@ -52,6 +52,7 @@
         </view> -->
       </view>
     </view>
+    <button open-type="contact" bindcontact="handleContact">发消息</button>
     <view class="oneRowBtn" style="margin: 20px" @click="back"> 确认 </view>
   </view>
 </template>
