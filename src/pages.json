@@ -8,7 +8,11 @@
       "enablePullDownRefresh": true
     },
     {
-      "path": "pages/my/myWallet"
+      "path": "pages/my/recharge"
+    },
+    {
+      "path": "pages/my/myWallet",
+      "enablePullDownRefresh": true
     },
     {
       "path": "pages/createShop/index"
