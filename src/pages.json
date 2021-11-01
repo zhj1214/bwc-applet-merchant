@@ -8,7 +8,14 @@
       "enablePullDownRefresh": true
     },
     {
-      "path": "pages/my/myWallet"
+      "path": "pages/my/withdraw"
+    },
+    {
+      "path": "pages/my/recharge"
+    },
+    {
+      "path": "pages/my/myWallet",
+      "enablePullDownRefresh": true
     },
     {
       "path": "pages/createShop/index"
@@ -90,13 +97,7 @@
         "pagePath": "pages/all-goods/all-goods",
         "iconPath": "/static/images/tab/mall.png",
         "selectedIconPath": "/static/images/tab/selectMall.png",
-        "text": "品牌"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "iconPath": "/static/images/tab/car.png",
-        "selectedIconPath": "/static/images/tab/selectCar.png",
-        "text": "购物车"
+        "text": "订单"
       },
       {
         "pagePath": "pages/my/myPage",
