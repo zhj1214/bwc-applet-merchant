@@ -4,13 +4,16 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-18 14:55:08
+ * @LastEditTime: 2021-10-21 15:10:52
  */
 import http from '../utils/http'
 import userCenter from './user' // 个人中心
+import * as userCenter1 from './userCenter' // 个人中心
+// const apis = require.context('./apis', false, /\.js$/)
 
-const api = {
+var api = {
   ...userCenter,
+  ...userCenter1,
   mapSearch: 'https://apis.map.qq.com/ws/place/v1/search',
   /************** 错误日志上报 *************/
   errApi: 'errLog/errlogUpload',
@@ -93,4 +96,22 @@ const api = {
     return http.baseURL + '/mos-webchatmall-server/api/platform/component/miniQrCodeGenerate'
   },
 }
-export default api
+
+// apis.keys().forEach((key) => {
+//   api = { ...api, ...apis(key).default }
+// })
+
+export default new Proxy(api, {
+  get: function (taget, propkey, receiver) {
+    return (options) => {
+      // 目前接口有两种形式的封装为了兼容函数的封装
+      if (Object.prototype.toString.call(propkey) === '[object Function]') {
+        taget.propkey(options)
+      } else {
+        taget.apiRequest(propkey, options)
+      }
+    }
+  },
+})
+
+// export default api

@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-13 21:19:42
+ * @LastEditTime: 2021-10-21 15:01:41
 -->
 <template>
   <view class="pageHome">
@@ -58,7 +58,19 @@
      * 生命周期函数--监听页面显示
      * 没有options可以拿到
      */
-    onShow: function () {},
+    onShow: function () {
+      // 请求获取验证码 示例
+      uni.$api.loginPhoneCode({
+        phone: '17521091214',
+        orgId: '13476062',
+      })
+      console.log('uni.$api', uni.$api)
+      // // 获取验证码
+      // uni.$api.apiRequest('getSmsCode', {
+      //   phone: this.phone,
+      //   orgId: uni.$localStorage.getItem('userOrgId'),
+      // })
+    },
     onLoad(options) {
       uni.$eventbus.$on('testinitindexdata', (e) => {
         console.log(e, '11111111111111')
