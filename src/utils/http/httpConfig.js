@@ -4,10 +4,10 @@
  * @Autor: zhj1214
  * @Date: 2021-11-01 17:10:16
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 18:11:43
+ * @LastEditTime: 2021-11-01 22:57:15
  */
-import { STORAGE } from '@/utils/constant'
-var urls = {}
+
+export var urls = {}
 export var method_fn = {}
 uni.$util.forEach(['get', 'post', 'put'], (method) => {
   method_fn[method] = (url) => {
@@ -16,19 +16,18 @@ uni.$util.forEach(['get', 'post', 'put'], (method) => {
   }
 })
 
-export const defaultConfig = function (app, config) {
-  //   method
-  return {
-    rootOrgId:
-      uni.$localStorage.getItem(STORAGE.ROOT_ORG_ID) ||
-      (app.globalData && app.globalData.rootOrgId) ||
-      '', // 商户orgId
-    orgId:
-      uni.$localStorage.getItem(STORAGE.ORG_ID) || (app.globalData && app.globalData.orgId) || '',
-    uToken: uni.$localStorage.getItem(STORAGE.TOKEN) || '', // 当前组织orgId
-    uid: uni.$localStorage.getItem(STORAGE.MEMBER_ID) || '1', // uid就是memberId
+export const defaultConfig = function (config) {
+  const header = {
     'content-type': 'application/json',
+  }
+  return {
+    timeout: 120000, // 超时时间
     loading: true, // 是否显示遮罩层
-    ...config, // 合并 自定义配置
+    retry: 0, // 请求重试次数
+    retryDelay: 1000, // 请求重试间隔
+    cache: false, // 是否缓存该请求
+    setExpireTime: 1000 * 60 * 60 * 24 * 30, // 单位毫秒，缓存有效时间1个月
+    header: { ...header, ...config.header }, // 合并 自定义配置
+    ...config.fig,
   }
 }

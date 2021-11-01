@@ -4,34 +4,9 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 17:42:18
+ * @LastEditTime: 2021-11-01 23:05:00
  */
 export default {
-   /**
-    * @description: 遍历所有类型
-    * @param {*} obj 数据
-    * @param {*} fn 遍历函数
-    * @author: zhj1214
-    */    
-   forEach(obj, fn) {
-    if (obj === null || typeof obj === 'undefined') {
-      return;
-    }
-    if (typeof obj !== 'object') {
-      obj = [obj];
-    }
-    if (isObjArr(obj) === 'array') {
-      for (var i = 0, l = obj.length; i < l; i++) {
-        fn.call(null, obj[i], i, obj);
-      }
-    } else {
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          fn.call(null, obj[key], key, obj);
-        }
-      }
-    }
-  }
   /**
    * @description 对象去重
    * @param var x ={a:'2'}
@@ -128,5 +103,29 @@ export default {
       return false
     }
   },
-  
+  /**
+   * @description: 遍历所有类型
+   * @param {*} obj 数据
+   * @param {*} fn 遍历函数
+   * @author: zhj1214
+   */
+  forEach(obj, fn) {
+    if (obj === null || typeof obj === 'undefined') {
+      return
+    }
+    if (typeof obj !== 'object') {
+      obj = [obj]
+    }
+    if (isObjArr(obj) === 'array') {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        fn.call(null, obj[i], i, obj)
+      }
+    } else {
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          fn.call(null, obj[key], key, obj)
+        }
+      }
+    }
+  },
 }

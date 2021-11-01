@@ -4,13 +4,13 @@
  * @Autor: zhj1214
  * @Date: 2021-03-18 21:51:18
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 18:30:57
+ * @LastEditTime: 2021-11-01 23:11:43
  */
 
 // import md5 from "md5";
 // import { Notice, Message } from "view-design";
-
-import { defaultConfig } from './httpConfig'
+import { STORAGE } from '@/utils/constant'
+import { defaultConfig, urls } from './httpConfig'
 
 const tpls = require('../../ext.json')
 
@@ -40,39 +40,30 @@ class NewAxios {
   constructor() {
     this.baseURL = getBaseUrl(tpls.applet_env)
     this.requestCount = 0 // 请求连接数
-    this.timeout = 120000
     this.one_t = getApp()
-  }
-
-  /**
-   * @description: 配置请求头
-   */
-  setInterceptors = () => {
-    const App = getApp()
-    return defaultConfig(App)
   }
 
   /**
    * @description api请求封装
    * */
-  request = (url, resolve, reject, data = {}, method, loading) => {
+  request = (url, resolve, reject, data = {}, config = {}) => {
     // 判断是否为外链,如果是外链则不需使用默认域名
     if (!url.includes('http')) {
-      url = this.baseURL + url
+      var requestUrl = this.baseURL + url
     }
     // 是否加载loading
-    if (loading) {
+    if (config.loading) {
       uni.$alert.showLoading('请稍等')
       this.requestCount += 1
     }
 
     if (!this.one_t) this.one_t = getApp()
     uni.request({
-      url: url,
-      timeout: this.timeout,
-      method: method,
+      url: requestUrl,
+      timeout: config.timeout,
+      method: urls[url],
       data: data,
-      header: this.setInterceptors(),
+      header: config.header,
       success: (res) => {
         const code = res.data.code
         const msg = res.data.message || ''
@@ -97,7 +88,7 @@ class NewAxios {
         reject(err)
       },
       complete: (res) => {
-        if (loading) {
+        if (config.loading) {
           this.requestCount -= 1
           if (this.requestCount === 0) {
             uni.hideLoading()
@@ -108,7 +99,7 @@ class NewAxios {
 
           this.one_t.globalData.fundebug.notifyHttpError(
             {
-              method: method,
+              method: urls[url],
               url: this.baseURL + url,
             },
             {
@@ -208,13 +199,38 @@ class NewAxios {
 }
 
 const axiox = new NewAxios()
+
+function getGloubleValue(key, value = '') {
+  return (
+    uni.$localStorage.getItem(key) ||
+    (axiox.one_t.globalData && axiox.one_t.globalData[key]) ||
+    value
+  )
+}
 /**
  * @description: 拦截器
  * @author: zhj1214
  */
 const interceptors = {
-  request: () => {
-    defaultConfig(getApp(), {})
+  request: function () {
+    // 自定义请求头
+    const config = {
+      header: {
+        rootOrgId: getGloubleValue(STORAGE.ROOT_ORG_ID), // 商户orgId
+        orgId: getGloubleValue(STORAGE.ORG_ID), // 当前组织orgId
+        uToken: getGloubleValue(STORAGE.TOKEN), // Token
+        uid: getGloubleValue(STORAGE.MEMBER_ID, '1'), // uid就是memberId
+      },
+      fig: {},
+    }
+    const options = arguments[3] // arguments: url, resolve, reject, data = {}
+    uni.$util.forEach(['loading', 'retry', 'retryDelay', 'cache', 'setExpireTime'], (key) => {
+      if (options.hasOwnProperty(key)) {
+        config.fig[key] = options[key]
+        delete options[key]
+      }
+    })
+    return defaultConfig(config)
   },
   reponse: () => {},
 }
