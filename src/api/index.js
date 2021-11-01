@@ -4,16 +4,21 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-10-21 15:10:52
+ * @LastEditTime: 2021-11-01 18:08:29
  */
 import http from '../utils/http'
+
 import userCenter from './user' // 个人中心
-import * as userCenter1 from './userCenter' // 个人中心
 // const apis = require.context('./apis', false, /\.js$/)
+const abc = userCenter.abc({ data: '123456' }, { params: '入参' }, () => {
+  console.log('哈哈哈哈')
+})
+console.log(abc.next().value)
+console.log('1111111111111111111111111111111')
+console.log(abc.next())
 
 var api = {
   ...userCenter,
-  ...userCenter1,
   mapSearch: 'https://apis.map.qq.com/ws/place/v1/search',
   /************** 错误日志上报 *************/
   errApi: 'errLog/errlogUpload',
@@ -24,51 +29,38 @@ var api = {
   getApiHost() {
     return http.baseURL
   },
-  /**
-   * api析构
-   * */
-  destructorApi(key) {
-    let apis = ''
-    if (this[key] && typeof this[key] === 'string') {
-      apis = this[key].split('::')
-    } else if (this[key] && typeof this[key] === 'function') {
-      apis = this[key]().split('::')
-    }
+  // /**
+  //  * api析构
+  //  * */
+  // destructorApi(key) {
+  //   let apis = ''
+  //   if (this[key] && typeof this[key] === 'string') {
+  //     apis = this[key].split('::')
+  //   } else if (this[key] && typeof this[key] === 'function') {
+  //     apis = this[key]().split('::')
+  //   }
 
-    if (apis.length === 1) apis.unshift('GET')
-    return {
-      url: apis[1],
-      method: apis[0],
-    }
-  },
+  //   if (apis.length === 1) apis.unshift('GET')
+  //   return {
+  //     url: apis[1],
+  //     method: apis[0],
+  //   }
+  // },
   /**
    * @description api接口调用
    * @param {Strung} key 接口字段
    * @param {*} options  入参
    * */
   apiRequest(key, options) {
-    const { url, method } = this.destructorApi(key)
-    console.log('url :>> ', url)
+    console.log('url :>> ', this[key])
     return new Promise((resolve, reject) => {
       http.request(
-        url,
+        this[key],
         (data) =>
           typeof this[key] === 'function' ? this[key](data, options, resolve) : resolve(data),
         reject,
-        options,
-        method,
-        true
+        options
       )
-    })
-  },
-  /**
-   * test
-   * @param {*} param0
-   * @returns
-   */
-  apiRequestFun({ url, options, method }) {
-    return new Promise((resolve, reject) => {
-      http.request(url, (data) => resolve(data), reject, options, method, true)
     })
   },
   /**

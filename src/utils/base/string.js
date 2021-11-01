@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-07-20 09:46:53
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-08-10 11:38:46
+ * @LastEditTime: 2021-11-01 18:18:52
  */
 /**
  * @description: 时间格式字符串 为适配iOS 替换 * => /
@@ -14,6 +14,7 @@
  * @author: zhj1214
  */
 import './date'
+import './function'
 String.prototype.dateFormat = function (format) {
   const timeStr = this.toString().replace(/-/g, '/')
   if (format) return new Date(timeStr).Format(format)

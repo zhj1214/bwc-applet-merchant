@@ -4,9 +4,34 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-04 09:52:25
+ * @LastEditTime: 2021-11-01 17:42:18
  */
 export default {
+   /**
+    * @description: 遍历所有类型
+    * @param {*} obj 数据
+    * @param {*} fn 遍历函数
+    * @author: zhj1214
+    */    
+   forEach(obj, fn) {
+    if (obj === null || typeof obj === 'undefined') {
+      return;
+    }
+    if (typeof obj !== 'object') {
+      obj = [obj];
+    }
+    if (isObjArr(obj) === 'array') {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        fn.call(null, obj[i], i, obj);
+      }
+    } else {
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          fn.call(null, obj[key], key, obj);
+        }
+      }
+    }
+  }
   /**
    * @description 对象去重
    * @param var x ={a:'2'}
@@ -47,7 +72,7 @@ export default {
   /*eslint no-extend-native: ["error", { "exceptions": ["Array,Date"] }]*/
   arrayUnique(arr) {
     function unique(x, y) {
-      if (isObjArr(x) == -1) {
+      if (isObjArr(x) === 'array') {
         let f = false
         x.forEach((item) => {
           objectEquals(item, y) ? (f = true) : false
@@ -56,15 +81,15 @@ export default {
           return x
         } else {
           const xx = x
-          const yy = isObjArr(y) == -1 ? y : [y]
+          const yy = isObjArr(y) === 'array' ? y : [y]
           return [...xx, ...yy]
         }
       } else {
         if (objectEquals(x, y)) {
-          return isObjArr(x) == -1 ? x : [x]
+          return isObjArr(x) === 'array' ? x : [x]
         } else {
-          const xx = isObjArr(x) == -1 ? x : [x]
-          const yy = isObjArr(y) == -1 ? y : [y]
+          const xx = isObjArr(x) === 'array' ? x : [x]
+          const yy = isObjArr(y) === 'array' ? y : [y]
           return [...xx, ...yy]
         }
       }
@@ -96,11 +121,12 @@ export default {
    * */
   isObjArr(value) {
     if (Object.prototype.toString.call(value) === '[object Array]') {
-      return -1
+      return 'array'
     } else if (Object.prototype.toString.call(value) === '[object Object]') {
-      return 1
+      return 'object'
     } else {
-      return 0
+      return false
     }
   },
+  
 }

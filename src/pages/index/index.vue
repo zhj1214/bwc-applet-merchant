@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-10-18 22:09:51
+ * @LastEditTime: 2021-11-01 15:29:49
 -->
 <template>
   <view class="pageHome">
@@ -84,10 +84,14 @@
     },
     onShow: function () {
       // 请求获取验证码 示例
-      uni.$api.loginPhoneCode({
-        phone: '17521091214',
-        orgId: '13476062',
-      })
+      uni.$api
+        .loginPhoneCode({
+          phone: '17521091214',
+          orgId: '13476062',
+        })
+        .then((res) => {
+          console.log(res)
+        })
       console.log('uni.$api', uni.$api)
       // // 获取验证码
       // uni.$api.apiRequest('getSmsCode', {

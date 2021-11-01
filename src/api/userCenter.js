@@ -16,7 +16,7 @@ import moment from 'moment'
  */
 export const getMySignUp = (options) => {
   return api
-    .apiRequestFun({
+    .apiRequest({
       url: `${API_SERVICE.COMPETITION}registryInfo/myregistry`,
       options,
       method: 'post',
@@ -41,7 +41,7 @@ export const getMySignUp = (options) => {
  * @param {*} options
  */
 export const getMySignUpDetails = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.COMPETITION}/registryInfo/detail`,
     options,
     method: 'get',
@@ -53,7 +53,7 @@ export const getMySignUpDetails = (options) => {
  * @param {*} options
  */
 export const changePassword = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.WE_CHAT}api/webchat/member/edit/password`,
     options,
     method: 'post',
@@ -65,7 +65,7 @@ export const changePassword = (options) => {
  * @param {*} options
  */
 export const changeNickName = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.WE_CHAT}api/webchat/member/edit`,
     options,
     method: 'post',
@@ -78,7 +78,7 @@ export const changeNickName = (options) => {
  * @returns
  */
 export const getUserInfo = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.WE_CHAT}api/webchat/member/info`,
     options,
     method: 'get',
@@ -90,7 +90,7 @@ export const getUserInfo = (options) => {
  * @param {*} options
  */
 export const logOut = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.WE_CHAT}api/webchat/logout`,
     options,
     method: 'get',
@@ -102,7 +102,7 @@ export const logOut = (options) => {
  * @param {*} params
  */
 export const getHonorDetails = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.COMPETITION}results/detail`,
     options,
     method: 'get',
@@ -114,7 +114,7 @@ export const getHonorDetails = (options) => {
  * @param {*} options
  */
 export const personnelCertification = (options) => {
-  return api.apiRequestFun({
+  return api.apiRequest({
     url: `${API_SERVICE.WE_CHAT}api/webchat/member/edit`,
     options,
     method: 'post',

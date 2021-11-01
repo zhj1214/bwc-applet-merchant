@@ -4,14 +4,15 @@
  * @Autor: zhj1214
  * @Date: 2021-03-18 21:51:18
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-18 14:52:43
+ * @LastEditTime: 2021-11-01 18:30:57
  */
 
 // import md5 from "md5";
 // import { Notice, Message } from "view-design";
-import { STORAGE } from '@/utils/constant'
 
-const tpls = require('../ext.json')
+import { defaultConfig } from './httpConfig'
+
+const tpls = require('../../ext.json')
 
 const getBaseUrl = (env) => {
   // #ifdef MP-WEIXIN
@@ -47,18 +48,8 @@ class NewAxios {
    * @description: 配置请求头
    */
   setInterceptors = () => {
-    const headerApp = getApp()
-    return {
-      rootOrgId:
-        uni.$localStorage.getItem(STORAGE.ROOT_ORG_ID) ||
-        (headerApp.globalData ? headerApp.globalData.rootOrgId || '' : ''),
-      orgId:
-        uni.$localStorage.getItem(STORAGE.ORG_ID) ||
-        (headerApp.globalData ? headerApp.globalData.orgId || '' : ''),
-      uToken: uni.$localStorage.getItem(STORAGE.TOKEN) || '',
-      uid: uni.$localStorage.getItem(STORAGE.MEMBER_ID) || '1', // uid就是memberId
-      'content-type': 'application/json',
-    }
+    const App = getApp()
+    return defaultConfig(App)
   }
 
   /**
@@ -216,4 +207,18 @@ class NewAxios {
   }
 }
 
-export default new NewAxios()
+const axiox = new NewAxios()
+/**
+ * @description: 拦截器
+ * @author: zhj1214
+ */
+const interceptors = {
+  request: () => {
+    defaultConfig(getApp(), {})
+  },
+  reponse: () => {},
+}
+
+axiox.request = axiox.request.before(interceptors.request).after(interceptors.reponse)
+
+export default axiox
