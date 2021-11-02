@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-03-18 21:51:18
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 18:19:17
+ * @LastEditTime: 2021-11-02 22:37:28
  */
 
 // import md5 from "md5";
@@ -35,18 +35,27 @@ class NewAxios {
       method: urls[url],
       data: data,
       header: config.header,
-      success: interceptors.reponse(resolve, requestUrl, data, this.show_error),
+      success: interceptors.reponse(resolve, requestUrl, data, config, this.show_error),
       fail: (err) => {
         interceptors.reportErrlog(requestUrl, data, '请求 TCP 建立失败')
         reject(err)
       },
       complete: (res) => {
+        // 隐藏loading
         if (config.loading) {
           this.requestCount -= 1
           if (this.requestCount === 0) {
             uni.hideLoading()
           }
         }
+        // 请求重试触发
+        // console.error(config.retryDelay, '请求重试', config.retry)
+        if (res.data.code === 90000) {
+          setTimeout(() => {
+            reject(config)
+          }, config.retryDelay)
+        }
+        // 第三方统计上报
         if (res.statusCode !== 200) {
           console.error(res, '____error')
           // fundebug.notifyHttpError(

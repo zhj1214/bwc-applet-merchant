@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-11-01 17:10:16
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 11:49:45
+ * @LastEditTime: 2021-11-02 22:51:12
  */
 
 import tool from '../tool/object'
@@ -45,7 +45,7 @@ const defaultConfig = function (config) {
     loading: true, // 是否显示遮罩层
     retry: 0, // 请求重试次数
     retryDelay: 1000, // 请求重试间隔
-    cache: false, // 是否缓存该请求
+    cache: false, // 是否缓存该请求，再次请求时也必须是true
     setExpireTime: 1000 * 60 * 60 * 24 * 30, // 单位毫秒，缓存有效时间1个月
     header: { ...header, ...config.header }, // 合并 自定义配置
     ...config.fig,

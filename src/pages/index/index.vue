@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 18:05:05
+ * @LastEditTime: 2021-11-02 23:06:54
 -->
 <template>
   <view class="pageHome">
@@ -84,15 +84,20 @@
     },
     onShow: function () {
       // 请求获取验证码 示例
-      uni.$api
-        .loginPhoneCode({
-          phone: '17521091214',
-          orgId: '13476062',
-          loading: false,
-        })
-        .then((res) => {
-          console.log('拿到请求数据，开始渲染', res)
-        })
+      // uni.$api
+      //   .loginPhoneCode({
+      //     phone: '17521091214',
+      //     orgId: '13476062',
+      //     retry: 2,
+      //     cache: true,
+      //     setExpireTime: 1000 * 60,
+      //   })
+      //   .then((res) => {
+      //     console.log('拿到请求数据，开始渲染', res)
+      //   })
+      //   .catch((err) => {
+      //     console.error('请求失败code：', err)
+      //   })
       // // 获取验证码
       // uni.$api.apiRequest('getSmsCode', {
       //   phone: this.phone,
@@ -101,7 +106,7 @@
     },
     onLoad(options) {
       uni.$eventbus.$on('testinitindexdata', (e) => {
-        console.log(e, '11111111111111')
+        console.log(e, '获取app.vue的通知')
       })
       if (options) this.options = options
 

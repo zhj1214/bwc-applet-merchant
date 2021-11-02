@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-11-02 17:31:10
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 18:20:12
+ * @LastEditTime: 2021-11-02 22:45:43
  */
 
 import { STORAGE } from '@/utils/constant'
@@ -21,7 +21,7 @@ export default {
    * @author: zhj1214
    */
   request: function () {
-    // console.log('请求之前拦截') // , arguments
+    // console.log('请求之前拦截', arguments)
     // 自定义请求头
     const config = {
       header: {
@@ -34,37 +34,41 @@ export default {
     }
 
     const options = arguments[3] // arguments: url, resolve, reject, data = {}
-    uni.$util.forEach(['loading', 'retry', 'retryDelay', 'cache', 'setExpireTime'], (key) => {
-      if (options.hasOwnProperty(key)) {
-        config.fig[key] = options[key]
-        delete options[key]
+    uni.$util.forEach(
+      ['loading', 'retry', 'retryDelay', 'cache', 'setExpireTime', 'api_key'],
+      (key) => {
+        if (options.hasOwnProperty(key)) {
+          config.fig[key] = options[key]
+          delete options[key]
+        }
       }
-    })
+    )
     return defaultConfig(config)
   },
   /**
    * @description: 请求完成后处理code业务逻辑
    * @author: zhj1214
    */
-  reponse: function (resolve, requestUrl, data, show_error) {
+  reponse: function (resolve, requestUrl, data, config, show_error) {
     return (res) => {
-      console.log('请求完成')
+      // console.log('请求完成开始处理code逻辑')
       const code = res.data.code
       const msg = res.data.message || ''
-      if (code === 10000 || code === 3003) {
-        resolve(res.data)
+      if (code === 10000) {
+        resolve(res.data, config)
       } else if (res.data.code === 30001) {
-        this.reportErrlog(requestUrl, data, res.data)
         uni.reLaunch({
           url: '/pages/login/login',
         })
+      } else if (res.data.code === 60000) {
+        this.reportErrlog(requestUrl, data, res.data)
+        show_error(msg || '接口异常，请定位原因')
       } else if (res.data.code === 90000) {
         this.reportErrlog(requestUrl, data, res.data)
         show_error(msg || '服务异常，请重试')
       } else {
         this.reportErrlog(requestUrl, data, res.data)
-        if (msg) show_error(msg)
-        resolve(res.data)
+        show_error(msg || 'code异常，请重试')
       }
     }
   },
@@ -73,7 +77,7 @@ export default {
    * @author: zhj1214
    */
   beginPadding: () => {
-    console.log('开始请求')
+    // console.log('开始请求')
   },
   /**
    * @description: 错误日志上报
@@ -81,8 +85,8 @@ export default {
    */
   reportErrlog: (url, data, result) => {
     const userObj = uni.$localStorage.getCurrentUser() || {}
-    this.one_t = getApp()
-    if (!userObj.phone || !this.one_t.globalData.isEnableCloud) return
+    const one_t = getApp()
+    if (!userObj.phone || !one_t.globalData.isEnableCloud) return
     uni.$api.cloudRequest('cctvApi', {
       memberId: userObj.memberId,
       nickName: userObj.nickName,

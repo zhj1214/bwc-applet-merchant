@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 18:32:35
+ * @LastEditTime: 2021-11-02 23:11:15
  */
 import http from '../utils/http'
 import userCenter from './user' // 个人中心
@@ -39,25 +39,45 @@ var api = {
    * */
   apiRequest(key, options) {
     return new Promise((resolve, reject) => {
+      console.log('options:000000000', options.cache)
+      // 校验书否有缓存数据
+      if (options.cache && uni.$localStorage.getItem(key)) {
+        resolve(uni.$localStorage.getItem(key))
+        return
+      }
+      // 保存请求key
+      options['api_key'] = key
       // 进入数据加工逻辑
-      const resolveGenerator = (data) => {
+      const resolveGenerator = (data, config) => {
+        // 是否有缓存逻辑
+        console.log('options:111111', config)
+        if (config.cache) uni.$localStorage.setItem(key, data, config.setExpireTime)
+        // 加工数据
         if (Object.prototype.toString.call(this[key]) === '[object GeneratorFunction]') {
           const generator = this[key](data, options, resolve)
           generator.next()
           generator.next()
-          // console.log('进来了吗：', generator)
         } else if (typeof this[key] === 'function') {
           this[key](data, options, resolve)
         } else {
           resolve(data)
         }
       }
+      // 请求重试 逻辑
+      const reject_try = (config) => {
+        if (config.retry === 0) {
+          reject(90000)
+        } else {
+          options.retry = config.retry - 1
+          http.request(generatorUrl || this[key], resolveGenerator, reject_try, options)
+        }
+      }
       // 处理 Generator url
       if (Object.prototype.toString.call(this[key]) === '[object GeneratorFunction]') {
         var generatorUrl = this[key]().next().value
       }
-      console.log('url :>> ', generatorUrl || this[key])
-      http.request(generatorUrl || this[key], resolveGenerator, reject, options)
+      // 开始调用请求方法 console.log('url :>> ', generatorUrl || this[key])
+      http.request(generatorUrl || this[key], resolveGenerator, reject_try, options)
     })
   },
   /**
