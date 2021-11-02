@@ -4,15 +4,14 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:39:48
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 17:53:11
+ * @LastEditTime: 2021-11-02 18:04:37
  */
 import { get, post } from '../utils/http/httpConfig'
-
-var api = {
+export default {
   /**************登录*************/
   loginPhone: 'POST::/yhqt-server/wechat-server/api/webchat/registerOrLoginV2', // 手机号登录
   loginPassword: 'POST::/yhqt-server/wechat-server/api/webchat/loginByAccount', // 密码登录
-  loginPhoneCode: '/yhqt-server/wechat-server/api/webchat/getSmsCode', // 获取验证码
+  // loginPhoneCode: get('/yhqt-server/wechat-server/api/webchat/getSmsCode'), // 获取验证码
   checkloginPhone: post('/yhqt-server/wechat-server/api/webchat/verifyPhone'), // 验证客户手机号
   checkRegistPhone: '/yhqt-server/wechat-server/api/webchat/verifyIsRegister', // 验证客户手机号是否注册
   setloginPassword: 'POST::/yhqt-server/wechat-server/api/webchat/reset/password', // 设置密码
@@ -25,31 +24,13 @@ var api = {
    * @param {*} resolve 回调函数
    * @author: zhj1214
    */
-  getOrderDetailDemo: (response, params, resolve) => {
-    if (!response) return 'POST::/marketing-server/api/remote/pay/getOrderDetail'
-    console.log('入参：', params)
-    response.time = '2021-09-05'
-    resolve(response)
-  },
 
   /*****解耦*****/
-  abc: function* (response, params, resolve) {
-    yield 'POST::/marketing-server/api/remote/pay/getOrderDetail'
+  loginPhoneCode: function* (response, params, resolve) {
+    yield '/yhqt-server/wechat-server/api/webchat/verifyIsRegister'
+    console.log('开始加工请求')
     console.log('入参：', params)
     response.time = '2021-09-05'
     resolve(response)
   },
 }
-
-export default new Proxy(api, {
-  get: function (taget, propkey, receiver) {
-    // switch
-    // return (options) => {
-    //   if (propkey === '[object Function]') {
-    //     taget.propkey(options)
-    //   } else {
-    //     taget.apiRequest(propkey, options)
-    //   }
-    // }
-  },
-})

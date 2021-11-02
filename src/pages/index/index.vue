@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 15:29:49
+ * @LastEditTime: 2021-11-02 18:05:05
 -->
 <template>
   <view class="pageHome">
@@ -88,11 +88,11 @@
         .loginPhoneCode({
           phone: '17521091214',
           orgId: '13476062',
+          loading: false,
         })
         .then((res) => {
-          console.log(res)
+          console.log('拿到请求数据，开始渲染', res)
         })
-      console.log('uni.$api', uni.$api)
       // // 获取验证码
       // uni.$api.apiRequest('getSmsCode', {
       //   phone: this.phone,
@@ -105,7 +105,7 @@
       })
       if (options) this.options = options
 
-      this.getLocation() // 获取定位信息
+      // this.getLocation() // 获取定位信息
     },
     mounted() {
       console.log(this.$options.name, 'name')

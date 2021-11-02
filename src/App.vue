@@ -1,10 +1,10 @@
 <script>
   import './utils/base/string'
-  import api from './api'
   import local from './utils/localStorage'
   import toast from './utils/toast'
   import util from './utils/tool'
   import eventbus from './utils/observer/index.js'
+  import api from './api'
   import scene from './utils/sceneManage'
   import { STORAGE } from '@/utils/constant'
   import appMixin from './AppMixin'
@@ -54,9 +54,10 @@
       this.globalData.orgId = '58265426'
       /***************************************** ③ 逻辑代码 *****************************************/
       this.getCurrentIphoneInfo() // 获取设备信息
-      this.initCloud() // 初始化云函数
+
       // this.initFundebug()
       // #ifdef MP-WEIXIN
+      this.initCloud() // 初始化云函数
       this.dynamicNetWorking()
       this.appIsUptate() //小程序是否有最新版本
       this.getThirdpartyConfig() // 小程序 第三方平台，自定义配置

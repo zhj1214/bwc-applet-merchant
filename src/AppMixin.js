@@ -68,13 +68,9 @@ export default {
      */
     getCurrentIphoneInfo() {
       let iphoneInfo = uni.getSystemInfoSync()
-      const accountInfo = uni.getAccountInfoSync()
-      iphoneInfo = {
-        ...iphoneInfo,
-        ...accountInfo,
-      }
-      this.globalData.iphoneInfo = iphoneInfo
+      let accountInfo = {}
       // #ifdef MP-WEIXIN
+      accountInfo = uni.getAccountInfoSync()
       //导航高度
       this.globalData.navHeight = iphoneInfo.statusBarHeight + 46
       const version = iphoneInfo.SDKVersion
@@ -90,6 +86,11 @@ export default {
         })
       }
       // #endif
+      iphoneInfo = {
+        ...iphoneInfo,
+        ...accountInfo,
+      }
+      this.globalData.iphoneInfo = iphoneInfo
     },
     /**
      * @description: 获取当前店铺Id

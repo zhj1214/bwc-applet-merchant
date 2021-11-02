@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-01 23:05:00
+ * @LastEditTime: 2021-11-02 09:25:28
  */
 export default {
   /**
@@ -116,7 +116,7 @@ export default {
     if (typeof obj !== 'object') {
       obj = [obj]
     }
-    if (isObjArr(obj) === 'array') {
+    if (this.isObjArr(obj) === 'array') {
       for (var i = 0, l = obj.length; i < l; i++) {
         fn.call(null, obj[i], i, obj)
       }
