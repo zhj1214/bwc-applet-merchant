@@ -4,10 +4,10 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-03 09:54:03
+ * @LastEditTime: 2021-11-03 14:53:12
  */
-import http from '../utils/http'
-import userCenter from './user' // 个人中心
+import http from './index'
+import userCenter from '@/api/user' // 个人中心
 // const apis = require.context('./apis', false, /\.js$/)
 
 var api = {

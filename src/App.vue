@@ -4,7 +4,7 @@
   import toast from './utils/toast'
   import util from './utils/tool'
   import eventbus from './utils/observer/index.js'
-  import api from './api'
+  import api from './utils/http/apiRequest'
   import scene from './utils/sceneManage'
   import { STORAGE } from '@/utils/constant'
   import appMixin from './AppMixin'

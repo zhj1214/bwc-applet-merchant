@@ -4,9 +4,10 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:39:48
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-03 09:51:33
+ * @LastEditTime: 2021-11-03 14:28:20
  */
 import { get, post } from '../utils/http/httpConfig'
+
 export default {
   /**************登录*************/
   loginPhone: post('/yhqt-server/wechat-server/api/webchat/registerOrLoginV2'), // 手机号登录

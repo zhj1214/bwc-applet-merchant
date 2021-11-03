@@ -1,12 +1,12 @@
 /*
  * @Author: NineNan
  * @Date: 2021-07-24 12:51:45
- * @LastEditTime: 2021-09-03 20:38:52
+ * @LastEditTime: 2021-11-03 14:53:43
  * @LastEditors: zhj1214
  * @Description: 个人中心 api
  * @FilePath: /yhqt-h5-client/src/api/userCenter.js
  */
-import api from './index'
+import api from '@/utils/http/apiRequest'
 import { API_SERVICE } from '@/utils/constant'
 import moment from 'moment'
 
