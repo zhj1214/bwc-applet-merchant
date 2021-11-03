@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-08-10 11:42:45
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 23:06:54
+ * @LastEditTime: 2021-11-03 09:50:55
 -->
 <template>
   <view class="pageHome">
@@ -83,21 +83,19 @@
       },
     },
     onShow: function () {
-      // 请求获取验证码 示例
-      // uni.$api
-      //   .loginPhoneCode({
-      //     phone: '17521091214',
-      //     orgId: '13476062',
-      //     retry: 2,
-      //     cache: true,
-      //     setExpireTime: 1000 * 60,
-      //   })
-      //   .then((res) => {
-      //     console.log('拿到请求数据，开始渲染', res)
-      //   })
-      //   .catch((err) => {
-      //     console.error('请求失败code：', err)
-      //   })
+      // 请求 示例
+      uni.$api
+        .checkRegistPhone({
+          phone: '17521091214',
+          orgId: '13476062',
+          retry: 2,
+        })
+        .then((res) => {
+          console.log('拿到请求数据，开始渲染', res)
+        })
+        .catch((err) => {
+          console.error('请求失败code：', err)
+        })
       // // 获取验证码
       // uni.$api.apiRequest('getSmsCode', {
       //   phone: this.phone,

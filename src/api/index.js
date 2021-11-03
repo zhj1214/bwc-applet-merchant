@@ -4,7 +4,7 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 23:11:15
+ * @LastEditTime: 2021-11-03 09:54:03
  */
 import http from '../utils/http'
 import userCenter from './user' // 个人中心
@@ -18,49 +18,31 @@ var api = {
   errApi: 'errLog/errlogUpload',
 
   /**
-   * 当前请求域名
-   * */
-  getApiHost() {
-    return http.baseURL
-  },
-  /**
-   * @description  获取小程序二维码
-   * @param {*} options
-   * 老街口 /api/platform/miniQrCodeGenerate
-   * 新街口 /api/platform/component/miniQrCodeGenerate
-   */
-  getWXQrcodeData() {
-    return http.baseURL + '/mos-webchatmall-server/api/platform/component/miniQrCodeGenerate'
-  },
-  /**
    * @description api接口调用
    * @param {Strung} key 接口字段
    * @param {*} options  入参
    * */
   apiRequest(key, options) {
     return new Promise((resolve, reject) => {
-      console.log('options:000000000', options.cache)
       // 校验书否有缓存数据
       if (options.cache && uni.$localStorage.getItem(key)) {
         resolve(uni.$localStorage.getItem(key))
         return
       }
+      // 获取请求 url
+      const keyValue = this[key]
+      var generatorUrl = typeof keyValue !== 'string' ? keyValue.url : keyValue
       // 保存请求key
       options['api_key'] = key
       // 进入数据加工逻辑
-      const resolveGenerator = (data, config) => {
+      var resolveGenerator = (response, config) => {
         // 是否有缓存逻辑
-        console.log('options:111111', config)
-        if (config.cache) uni.$localStorage.setItem(key, data, config.setExpireTime)
+        if (config.cache) uni.$localStorage.setItem(key, response, config.setExpireTime)
         // 加工数据
-        if (Object.prototype.toString.call(this[key]) === '[object GeneratorFunction]') {
-          const generator = this[key](data, options, resolve)
-          generator.next()
-          generator.next()
-        } else if (typeof this[key] === 'function') {
-          this[key](data, options, resolve)
+        if (typeof keyValue !== 'string') {
+          keyValue.callBack(response, options, resolve)
         } else {
-          resolve(data)
+          resolve(response)
         }
       }
       // 请求重试 逻辑
@@ -69,15 +51,11 @@ var api = {
           reject(90000)
         } else {
           options.retry = config.retry - 1
-          http.request(generatorUrl || this[key], resolveGenerator, reject_try, options)
+          http.request(generatorUrl, resolveGenerator, reject_try, options)
         }
       }
-      // 处理 Generator url
-      if (Object.prototype.toString.call(this[key]) === '[object GeneratorFunction]') {
-        var generatorUrl = this[key]().next().value
-      }
-      // 开始调用请求方法 console.log('url :>> ', generatorUrl || this[key])
-      http.request(generatorUrl || this[key], resolveGenerator, reject_try, options)
+      // 开始调用请求方法 console.log('url :>> ', generatorUrl )
+      http.request(generatorUrl, resolveGenerator, reject_try, options)
     })
   },
   /**

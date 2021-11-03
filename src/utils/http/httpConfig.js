@@ -4,18 +4,23 @@
  * @Autor: zhj1214
  * @Date: 2021-11-01 17:10:16
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-02 22:51:12
+ * @LastEditTime: 2021-11-03 09:18:24
  */
 
-import tool from '../tool/object'
 const tpls = require('../../ext.json')
+import tool from '../tool/object'
 
 var method_fn = {} // 支持的请求方式
 var urls = {} // url与method映射关系
 tool.forEach(['get', 'post', 'put'], (method) => {
-  method_fn[method] = (url) => {
+  method_fn[method] = (url, callBack) => {
     urls[url] = method.toUpperCase()
-    return url
+    return callBack
+      ? {
+          url: url,
+          callBack: callBack,
+        }
+      : url
   }
 })
 
