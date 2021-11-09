@@ -6,6 +6,7 @@
  * @Description: 个人中心 api
  * @FilePath: /yhqt-h5-client/src/api/userCenter.js
  */
+import { get, post } from '../utils/http/httpConfig'
 import api from '@/utils/http/apiRequest'
 import { API_SERVICE } from '@/utils/constant'
 import moment from 'moment'
@@ -119,4 +120,25 @@ export const personnelCertification = (options) => {
     options,
     method: 'post',
   })
+}
+
+export default {
+  /**************登录*************/
+  loginPhone1: post('/yhqt-server/wechat-server/api/webchat/registerOrLoginV2'), // 手机号登录
+
+  /**
+   * @description:  验证客户手机号是否注册 示例
+   * @param {*} response 请求结果
+   * @param {*} params   请求参数
+   * @param {*} resolve 回调函数
+   * @author: zhj1214
+   */
+  checkRegistPhone1: get(
+    '/yhqt-server/wechat-server/api/webchat/verifyIsRegister',
+    (response, params, resolve) => {
+      console.log('开始加工请求,拿到入参：', params)
+      response.time = '2021-09-05'
+      resolve(response)
+    }
+  ),
 }

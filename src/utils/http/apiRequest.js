@@ -4,14 +4,11 @@
  * @Autor: zhj1214
  * @Date: 2021-04-15 14:34:58
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-11-03 14:53:12
+ * @LastEditTime: 2021-11-09 14:47:47
  */
 import http from './index'
-import userCenter from '@/api/user' // 个人中心
-// const apis = require.context('./apis', false, /\.js$/)
 
 var api = {
-  ...userCenter,
   /************** 外链 *************/
   mapSearch: 'https://apis.map.qq.com/ws/place/v1/search',
   /************** 云函数 错误日志上报 *************/
@@ -74,6 +71,34 @@ var api = {
   },
 }
 
+/**
+ * @description: 合并api文件下的所有接口，如有重名字段则会提示
+ * @author: zhj1214
+ */
+const apis = require.context('../../api', false, /\.js$/)
+const apis_arr = Object.keys(api)
+apis.keys().forEach((name) => {
+  const obj = apis(name).default
+  // 校验
+  Object.keys(obj).forEach((key) => {
+    let isHas = false
+    apis_arr.forEach((oldKey) => {
+      // console.log(oldKey, '==========', key)
+      if (oldKey === key) {
+        isHas = true
+        console.error(`接口api，发现重复字段：${oldKey} 请检查文件后修改。`)
+      }
+    })
+    if (!isHas) apis_arr.push(key)
+  })
+
+  api = { ...api, ...obj }
+})
+
+/**
+ * @description: 劫持当前类的get方法
+ * @author: zhj1214
+ */
 export default new Proxy(api, {
   get: function (taget, propkey, receiver) {
     return (options) => {

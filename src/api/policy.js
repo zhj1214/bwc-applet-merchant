@@ -1,12 +1,13 @@
 /*
  * @Author: NineNan
  * @Date: 2021-07-22 16:21:34
- * @LastEditTime: 2021-11-01 17:19:20
+ * @LastEditTime: 2021-11-09 14:50:56
  * @LastEditors: zhj1214
  * @Description: 政策模块 api
  * @FilePath: \yh_client\src\api\policy.js
  */
-import api from './index'
+import { get, post } from '../utils/http/httpConfig'
+import api from '../utils/http/apiRequest'
 import moment from 'moment'
 import { API_SERVICE } from '@/utils/constant'
 
@@ -77,4 +78,25 @@ function formatTime(arr) {
     return item
   })
   return timeArr
+}
+
+export default {
+  /**************登录*************/
+  loginPhone2: post('/yhqt-server/wechat-server/api/webchat/registerOrLoginV2'), // 手机号登录
+
+  /**
+   * @description:  验证客户手机号是否注册 示例
+   * @param {*} response 请求结果
+   * @param {*} params   请求参数
+   * @param {*} resolve 回调函数
+   * @author: zhj1214
+   */
+  checkRegistPhone2: get(
+    '/yhqt-server/wechat-server/api/webchat/verifyIsRegister',
+    (response, params, resolve) => {
+      console.log('开始加工请求,拿到入参：', params)
+      response.time = '2021-09-05'
+      resolve(response)
+    }
+  ),
 }
