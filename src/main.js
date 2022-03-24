@@ -4,12 +4,14 @@
  * @Autor: zhj1214
  * @Date: 2021-03-01 11:44:49
  * @LastEditors: zhj1214
- * @LastEditTime: 2021-09-03 23:56:24
+ * @LastEditTime: 2021-11-09 16:43:50
  */
 import Vue from 'vue'
 import App from './App'
 import store from './store'
 import uView from 'uview-ui'
+import * as Sentry from '@sentry/browser'
+import { Integrations } from '@sentry/tracing'
 
 Vue.use(uView)
 Vue.prototype.$store = store
@@ -74,6 +76,17 @@ Vue.mixin({
       isFn(callback) && this.$nextTick(callback)
     },
   },
+})
+
+Sentry.init({
+  dsn: 'https://254db14b9ecc43fb8c2206d9aeb6496b@o1064678.ingest.sentry.io/6055684',
+
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
 })
 
 App.mpType = 'app'
